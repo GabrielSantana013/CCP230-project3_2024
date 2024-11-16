@@ -5,7 +5,6 @@
 
 int consultarExtrato(Usuario *ptrUsuario)
 {
-
     FILE *ptrArquivoExtrato;
     Extrato extrato;
 
@@ -46,10 +45,10 @@ int consultarExtrato(Usuario *ptrUsuario)
         if (foundExtrato == 0)
         {
             fclose(ptrArquivoExtrato);
-            return 0;
+            return 1;
         }
 
         fclose(ptrArquivoExtrato);
     }
-    return 1;
+    return 0;
 }
