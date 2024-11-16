@@ -70,5 +70,7 @@ int cadastroInvestidor(Usuario *ptrUsuario);
 int excluirInvestidor(Usuario *ptrUsuario);
 int cadastroCripto();
 int excluirCripto();
+int consultarSaldo(Usuario *ptrUsuario);
+int consultarExtrato(Usuario *ptrUsuario);
 
 #endif
