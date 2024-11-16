@@ -70,13 +70,16 @@ int main(){
             }
             break;
         case 4:
+            limpaBuffer();
             excluirCripto();
             break;
         case 5:
-            // consultaSaldo();
+            limpaBuffer();
+            consultarSaldo(ptrUsuario);
             break;
         case 6:
-            // consultaExtrato();
+            limpaBuffer();
+            consultarExtrato(ptrUsuario);
             break;
         case 7:
             status = atualizarCotacao();
