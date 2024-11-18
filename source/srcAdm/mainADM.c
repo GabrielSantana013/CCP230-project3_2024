@@ -54,7 +54,6 @@ int main() {
             adm.saldoReais = 0;
             adm.qttExtrato = 0;
             int retorno = cadastro(ptrADM);
-            printf("retorno cadastro: %d\n", retorno);
         }
     }
     fclose(ptrArquivoClientes);
@@ -68,6 +67,13 @@ int main() {
 
     printf("Digite sua senha: ");
     fgets(ptrADM->senha, sizeof(ptrADM->senha), stdin);
+
+    if(strcmp(ptrADM->cpf, "12312312312") != 0 || strcmp(ptrADM->senha, "admin\n") != 0)
+    {
+        printf("CPF ou senha invalidos.\n\n");
+        return -1;
+    }
+
     int status = login(ptrADM); // 1 = logado, 0 = não logado
     
     if (status)
@@ -79,8 +85,6 @@ int main() {
         printf("CPF ou senha invalidos.\n\n");
         return -1;
     }
-
-  printf("Login bem-sucedido! Bem-vindo, administrador.\n");
 
   int retorno;
 
