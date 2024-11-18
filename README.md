@@ -1,4 +1,4 @@
-# Projeto 1 - Exchange de Criptomoedas
+# Projeto 3 - Exchange de Criptomoedas
 Repositório criado para o projeto "Exchange de criptomoedas" da disciplina "Desenvolvimento de Algoritmos (CCP230)" - 2° Semestre de 2024
 
 ## Objetivo
