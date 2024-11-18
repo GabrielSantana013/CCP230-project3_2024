@@ -29,6 +29,7 @@ int cadastro(Usuario *ptrUsuario){
     ptrUsuario->qttExtrato = 0;
 
     fwrite(ptrUsuario, bytes, 1, ptrArquivo);
+    
     fclose(ptrArquivo);
 
     return 0;

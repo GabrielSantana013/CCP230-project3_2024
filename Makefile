@@ -13,7 +13,7 @@ CFLAGS = -Wall -I$(INCLUDE_DIR)
 INV_DIR = ./source/srcInvestidor
 INV_C_SOURCE = $(wildcard ./source/srcInvestidor/*.c)
 ADM_C_SOURCE = $(wildcard ./source/srcAdm/*.c)
-DEFAULT_SOURCE = $(INV_DIR)/verificaCPF.c $(INV_DIR)/limpaBuffer.c $(INV_DIR)/atualizarCotacao.c $(INV_DIR)/cadastro.c
+DEFAULT_SOURCE = $(INV_DIR)/verificaCPF.c $(INV_DIR)/limpaBuffer.c $(INV_DIR)/atualizarCotacao.c $(INV_DIR)/cadastro.c $(INV_DIR)/login.c
 
 H_SOURCE = $(wildcard ./source/include/*.h)
 
