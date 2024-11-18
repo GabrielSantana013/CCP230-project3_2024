@@ -11,18 +11,25 @@ Além disso, o histórico de transações possui um limite de 100 operações. T
 O programa funciona de maneira simples e intuitiva. Ao executar o arquivo, você poderá realizar seu cadastro, entrar com seu login (CPF e senha) ou sair do programa.  
 Ao entrar com suas informações, você terá algumas opções de operações para realizar: exibir o saldo em conta, depositar e sacar seu dinheiro, comprar e vender criptomoedas, atualizar a cotação das criptomoedas e consultar o extrato da conta.
 
+## Como fazer login como ADM:
+
+`CPF`: 12312312312 <br>
+`SENHA`: admin
+
 O funcionamento detalhado do programa é o seguinte:
 
 ### Estruturas
-O programa conta com 3 estruturas básicas para armezenar as informações:
+O programa conta com 4 estruturas básicas para armezenar as informações:
 - Usuario
   - Armazena informações do usuário, incluindo saldo e dados de login.
 - Criptomoedas
   - Contém informações sobre as criptomoedas disponíveis, como nome e cotações.
 - Extrato
   - Registra operações financeiras realizadas pelo usuário, incluindo data e valor.
+- Ativos
+  - Contém todos os ativos comprados de todos os clientes. 
 
-### Funções
+### Funções de Usuário:
 ``` cpp
     void limpaBuffer(); // Limpa o buffer de entrada.
     int exibirMenuVisitante(); // Exibe o menu para visitantes.
@@ -41,9 +48,22 @@ O programa conta com 3 estruturas básicas para armezenar as informações:
     int contaExtrato(Usuario *ptrUsuario); // Conta o número de operações registradas no extrato do usuário.
 ```
 
+
+### Funções de ADM:
+``` cpp
+  int exibirMenuADM(); // Exibe o menu do ADM
+  int cadastroInvestidor(Usuario *ptrUsuario); // Realiza o cadastro de um investidor
+  int excluirInvestidor(Usuario *ptrUsuario); //Exclui um investidor existente
+  int cadastroCripto(); // Cadastra uma nova Criptomoeda
+  int excluirCripto(); //Exclui uma criptomoeda Existente
+  int consultarSaldo(Usuario *ptrUsuario); // Consulta saldo de um investidor
+  int consultarExtrato(Usuario *ptrUsuario); // Consulta o extrato de um investidor
+```
+
 #### Funções de sistema
-As funções `limpaBuffer(), exibirMenuVisitante() e exibirMenuCliente` são autoindicativas: elas, respectivamente, limpam o buffer de entrada do usuário, exibem o menu incial (visitante) na tela
-e exibem o menu de cliente quando logado.
+As funções `limpaBuffer(), exibirMenuVisitante(), exibirMenuCliente() e exibirMenuADM() ` são autoindicativas: elas, respectivamente, limpam o buffer de entrada do usuário, exibem o menu incial (visitante) na tela, exibem o menu de cliente quando logado e o menu de ADM.
+
+## Funções de Cliente:
 
 #### Função `cadastro()`
 
@@ -471,25 +491,181 @@ Funcionamento
         Itera pelos registros, contando quantos pertencem ao usuário com base no CPF.
     Retorno: Retorna a contagem de transações.
 
+## Funções de ADM:
+
+#### Função exibirMenuADM
+
+A função `exibirMenuADM` é responsável por exibir o menu principal para administradores e retornar a opção escolhida pelo usuário.
+
+**Funcionamento**
+
+1. **Exibição do Menu:**
+   - Apresenta um conjunto de opções para o administrador, como cadastro de investidores, exclusão de registros, consulta de saldos e extratos, entre outras.
+   - Utiliza o comando `printf` para exibir o menu.
+
+2. **Entrada de Dados:**
+   - Solicita ao usuário que escolha uma das opções apresentadas no menu.
+   - Utiliza a função `scanf` para capturar a entrada.
+
+3. **Retorno:**
+   - Retorna o número inteiro correspondente à opção selecionada.
+
+---
+
+#### Função cadastroInvestidor
+
+A função `cadastroInvestidor` realiza o cadastro de um novo investidor no sistema, armazenando seus dados no arquivo binário `clientes.bin`.
+
+**Parâmetros**
+
+    Usuario *ptrUsuario: Ponteiro para uma estrutura do tipo Usuario, que armazena os dados do novo investidor.
+
+**Funcionamento**
+
+1. **Abertura do Arquivo:**
+   - Abre o arquivo `clientes.bin` em modo de escrita/apend (`ab`).
+   - Caso não consiga abrir o arquivo, exibe uma mensagem de erro e retorna `-1`.
+
+2. **Entrada de Dados:**
+   - Solicita ao administrador o nome, CPF e senha do novo investidor.
+   - Preenche os campos da estrutura `Usuario` com as informações fornecidas.
+
+3. **Escrita no Arquivo:**
+   - Grava os dados do investidor no arquivo binário usando a função `fwrite`.
+
+4. **Finalização:**
+   - Fecha o arquivo após a gravação e retorna `0`, indicando sucesso.
+
+---
+
+#### Função excluirInvestidor
+
+A função `excluirInvestidor` permite que o administrador remova um investidor do arquivo binário `clientes.bin` com base no CPF.
+
+**Parâmetros**
+
+    Usuario *ptrUsuario: Ponteiro para uma estrutura do tipo Usuario, que contém o CPF do investidor a ser excluído.
+
+**Funcionamento**
+
+1. **Verificação do CPF:**
+   - Lê todos os registros do arquivo `clientes.bin` e procura pelo CPF informado.
+   - Caso o CPF não seja encontrado, retorna `-1`.
+
+2. **Confirmação:**
+   - Exibe os dados do investidor encontrado e solicita a confirmação para realizar a exclusão.
+
+3. **Atualização do Arquivo:**
+   - Recria o arquivo `clientes.bin` sem o registro do investidor excluído.
+
+4. **Finalização:**
+   - Fecha o arquivo e retorna `0` em caso de sucesso.
+
+---
+
+#### Função cadastroCripto
+
+A função `cadastroCripto` realiza o cadastro de uma nova criptomoeda no arquivo binário `criptos.bin`.
+
+**Funcionamento**
+
+1. **Abertura do Arquivo:**
+   - Abre o arquivo `criptos.bin` em modo de escrita/apend (`ab`).
+
+2. **Entrada de Dados:**
+   - Solicita ao administrador o nome, cotação inicial, taxa de compra e taxa de venda da criptomoeda.
+
+3. **Escrita no Arquivo:**
+   - Grava os dados da nova criptomoeda no arquivo.
+
+4. **Finalização:**
+   - Fecha o arquivo e retorna `0` em caso de sucesso.
+
+---
+
+#### Função excluirCripto
+
+A função `excluirCripto` remove uma criptomoeda do arquivo binário `criptos.bin` com base no nome.
+
+**Funcionamento**
+
+1. **Verificação do Nome:**
+   - Procura no arquivo pela criptomoeda cujo nome foi informado.
+
+2. **Confirmação:**
+   - Exibe os dados da criptomoeda encontrada e solicita a confirmação para exclusão.
+
+3. **Atualização do Arquivo:**
+   - Recria o arquivo `criptos.bin` sem o registro da criptomoeda excluída.
+
+4. **Finalização:**
+   - Fecha o arquivo e retorna `0` em caso de sucesso.
+
+---
+
+#### Função consultarSaldo
+
+A função `consultarSaldo` exibe o saldo de um investidor com base no CPF informado.
+
+**Parâmetros**
+
+    Usuario *ptrUsuario: Ponteiro para uma estrutura do tipo Usuario, que contém o CPF do investidor.
+
+**Funcionamento**
+
+1. **Verificação do CPF:**
+   - Procura pelo CPF no arquivo `clientes.bin`.
+
+2. **Exibição do Saldo:**
+   - Caso o CPF seja encontrado, exibe o saldo atual do investidor.
+
+3. **Retorno:**
+   - Retorna `0` em caso de sucesso ou `-1` se o CPF não for encontrado.
+
+---
+
+#### Função consultarExtrato
+
+A função `consultarExtrato` exibe o extrato de um investidor com base no CPF informado.
+
+**Parâmetros**
+
+    Usuario *ptrUsuario: Ponteiro para uma estrutura do tipo Usuario, que contém o CPF do investidor.
+
+**Funcionamento**
+
+1. **Verificação do CPF:**
+   - Procura pelo CPF no arquivo `clientes.bin`.
+
+2. **Leitura do Extrato:**
+   - Lê as transações associadas ao CPF no arquivo de histórico.
+
+3. **Exibição do Extrato:**
+   - Exibe todas as transações do investidor.
+
+4. **Retorno:**
+   - Retorna `0` em caso de sucesso ou `-1` se o CPF não for encontrado.
+
+
 ## Compilação e execução
 Para executar o programa, é necessário baixar os arquivos fonte e compilar o arquivo executável.  
 Para isso, clone o repositório em um diretório local (utilize a forma que desejar, o exemplo abaixo clona a partir do link HTTPS).
 
 ```
-git clone https://github.com/PedroSchneider1/CCP230-project1_2024.git
+git clone https://github.com/GabrielSantana013/CCP230-project3_2024.git
 ```
 
 Em seguida, dirija-se a pasta principal do repositório e utilize o Makefile para compilação.
 
 ```
-cd .\CCP230-project1_2024\
+cd .\CCP230-project3_2024\
 make
 ```
 
-Com isso, o arquivo "exchange.exe" será criado na pasta principal do projeto. Para utilizá-lo, apenas abra o executável e faça suas operações!  
-> Obs.: O programa funciona completamente através do terminal do seu sistema operacional.
+Com isso, o arquivo "exchange.exe" e o arquivo "adm.exe" será criado na pasta principal do projeto. Para utilizá-los, apenas abra o executável e faça suas operações!  
+> Obs.: Os programas funcionma completamente através do terminal do seu sistema operacional.
 
 ## Autores
-Esse é o projeto #1 da disciplina CCP230 (Desenvolvimento de Algoritmos) do curso de Ciência da Computação do Centro Universitário FEI, criado pelos alunos:
+Esse é o projeto #3 da disciplina CCP230 (Desenvolvimento de Algoritmos) do curso de Ciência da Computação do Centro Universitário FEI, criado pelos alunos:
 - [@Pedro Schneider](https://github.com/PedroSchneider1) (RA 24.124.072-0)
 - [@Gabriel Santana Dias](https://github.com/GabrielSantana013) (RA 24.124.071-2)
